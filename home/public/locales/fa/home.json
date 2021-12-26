@@ -1,0 +1,13 @@
+{
+  "header": {
+    "title": "این صفحه اصلی است",
+    "signOut": "خروج از سیستم",
+    "language": "زبان",
+    "header_login": "وارد شدن",
+    "header_register": "ثبت نام",
+    "header_theme": "حالت تم",
+    "header_dark": "تیره",
+    "header_light": "روشن",
+    "header_language": "زبان"
+  }
+}

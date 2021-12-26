@@ -1,0 +1,13 @@
+{
+  "header": {
+    "title": "This is Header Title",
+    "signOut": "Sign Out",
+    "language": "Language",
+    "header_login": "login",
+    "header_register": "register",
+    "header_theme": "Theme Mode",
+    "header_dark": "Dark",
+    "header_light": "Light",
+    "header_language": "Language"
+  }
+}

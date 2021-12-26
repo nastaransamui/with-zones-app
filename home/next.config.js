@@ -1,6 +1,7 @@
-const { BLOG_URL } = process.env
-
+const { ADMIN_URL } = process.env
+const { i18n } = require("./next-i18next.config");
 module.exports = {
+  i18n,
   async rewrites() {
     return [
       {
@@ -8,12 +9,12 @@ module.exports = {
         destination: `/:path*`,
       },
       {
-        source: '/blog',
-        destination: `${BLOG_URL}/blog`,
+        source: '/admin',
+        destination: `${ADMIN_URL}/admin`,
       },
       {
-        source: '/blog/:path*',
-        destination: `${BLOG_URL}/blog/:path*`,
+        source: '/admin/:path*',
+        destination: `${ADMIN_URL}/admin/:path*`,
       },
     ]
   },
