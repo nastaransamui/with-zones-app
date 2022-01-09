@@ -2,19 +2,20 @@ import { Fragment } from "react";
 import { checkCookies, getCookies } from "cookies-next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { wrapper } from "../src/redux/store";
-import { getSession } from "next-auth/react";
 import HeadComponent from "../src/components/head";
 import Mainlayout from "../src/pages/MainLayout";
 import brand from "../public/text/brand";
 import Homepage from "../src/pages/home/HomePage";
+// import { useTranslation } from "next-i18next";
 function Home(props) {
   const { router } = props;
   const { locale } = router;
+  // const { t, ready } = useTranslation("home");
   return (
     <Fragment>
       <HeadComponent title={brand[`name_${locale}`]} />
-      <Mainlayout {...props}>
-        <Homepage {...props} />
+      <Mainlayout {...props}  >
+        <Homepage {...props}  />
       </Mainlayout>
     </Fragment>
   );
@@ -23,7 +24,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (ctx) => {
     return {
       props: {
-        session: await getSession(ctx),
+        session: null,
         ...(await serverSideTranslations(ctx.locale, [
           "common",
           "home",

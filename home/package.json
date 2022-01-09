@@ -14,6 +14,7 @@
     "@mui/material": "^5.2.1",
     "@mui/styles": "^5.2.1",
     "@next-auth/mongodb-adapter": "^0.0.2-next.298",
+    "animate.css": "^4.1.1",
     "axios": "^0.24.0",
     "cookies-next": "^2.0.3",
     "crypto-js": "^4.1.1",
@@ -33,14 +34,20 @@
     "next-redux-wrapper": "^7.0.5",
     "react": "^17.0.2",
     "react-anchor-link-smooth-scroll": "^1.0.12",
+    "react-animated-slider": "^2.0.0",
     "react-dom": "^17.0.2",
     "react-ionicons": "^3.0.0",
+    "react-loadingg": "^1.7.2",
     "react-material-ui-form-validator": "^3.0.0",
     "react-redux": "^7.2.6",
     "react-s-alert": "^1.4.1",
+    "react-scroll-parallax": "^2.4.2",
     "react-scrollspy": "^3.4.3",
+    "react-slick": "^0.28.1",
     "react-top-loading-bar": "^2.1.0",
-    "socket.io-client": "^4.4.0"
+    "react-youtube": "^7.13.1",
+    "socket.io-client": "^4.4.0",
+    "video-react": "^0.14.1"
   },
   "license": "MIT"
 }

@@ -7,9 +7,9 @@ const Mainlayout = (props) => {
   const { children } = props;
   return (
     <Fragment>
-      <Header />
+      <Header {...props}/>
       {children}
-      <Footer />
+      <Footer {...props}/>
     </Fragment>
   );
 };

@@ -1,18 +1,32 @@
-import { makeStyles } from "@mui/styles";
-const sectionMargin = margin => (margin * 20);
+import { makeStyles } from '@mui/styles';
+const sectionMargin = (margin) => margin * 20;
 const useStyles = makeStyles((theme) => {
   return {
     mainWrap: {
+      position: 'relative',
+      width: '100%',
+      overflow: 'hidden',
+      background:
+        theme.palette.type === 'dark'
+          ? theme.palette.background.default
+          : theme.palette.background.paper,
     },
-    spaceTop:{
-      marginTop: sectionMargin(16),
-    [theme.breakpoints.down('sm')]: {
-      marginTop: sectionMargin(3),
+
+    containerWrap: {
+      marginTop: -40,
+      '& > section': {
+        position: 'relative',
+      },
     },
-    [theme.breakpoints.down('xs')]: {
-      marginTop: sectionMargin(2),
-    }
-    }
+    spaceTop: {
+      marginTop: sectionMargin(4),
+      [theme.breakpoints.down('sm')]: {
+        marginTop: sectionMargin(3),
+      },
+      [theme.breakpoints.down('xs')]: {
+        marginTop: sectionMargin(2),
+      },
+    },
   };
 });
 

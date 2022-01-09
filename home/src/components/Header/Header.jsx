@@ -48,6 +48,7 @@ const LinkBtn = forwardRef((props, ref) => {
 });
 
 export default function Header(props) {
+  const { invert } = props;
   const classes = useStyles();
   const theme = useTheme();
   const router = useRouter();
@@ -77,16 +78,23 @@ export default function Header(props) {
     };
   }, []);
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [menuList] = useState([
-    createData(navMenu[0], "#" + navMenu[0].en, 100),
-    createData(navMenu[1], "#" + navMenu[1].en, 100),
-    createData(navMenu[2], "#" + navMenu[2].en, 100),
-    createData(navMenu[3], "#" + navMenu[3].en, 100),
-    createData(navMenu[4], "#" + navMenu[4].en, 100),
-    createData(navMenu[5], "#" + navMenu[5].en, 100),
-    createData(navMenu[6], "#" + navMenu[6].en, 100),
-    createData(navMenu[7], "#" + navMenu[7].en, 0),
-  ]);
+  const [menuList, setMenuList] = useState([]);
+
+  // Add navMenu to menu List
+  useEffect(() =>{
+    let isMount = true;
+    if(isMount && menuList.length == 0){
+      for (let index = 0; index < navMenu.length; index++) {
+        const element = navMenu[index];
+        menuList.push(createData(element, '#'+ element.en, 100))
+        setMenuList(menuList)
+      }
+    }
+    return ()=>{
+      isMount = false;
+    }
+  },[])
+
 
   // Handle scroll to element from non "/" link
   useEffect(() => {
@@ -110,7 +118,6 @@ export default function Header(props) {
     setOpenDrawer(!openDrawer);
   };
 
-  const { invert } = props;
 
   return (
     <Fragment>
@@ -234,14 +241,17 @@ export default function Header(props) {
             </Hidden>
             <nav className={clsx(classes.navMenu, classes.navAuth)}>
               <Hidden xsDown>
-                <Button href={routeLink.panel[`login_${router.locale}`]} className={classes.login}>
+                <Button href={routeLink.panel[`contact_${router.locale}`]} 
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}>
+                  {t("header.header_contact")}
+                </Button>
+                <Button href={routeLink.panel[`login_${router.locale}`]} >
                   {t("header.header_login")}
                 </Button>
                 <Button
                   href={routeLink.panel[`register_${router.locale}`]}
-                  variant="contained"
-                  color="secondary"
-                  className={classes.button}
                 >
                   {t("header.header_register")}
                 </Button>

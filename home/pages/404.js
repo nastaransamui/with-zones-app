@@ -5,8 +5,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import HeadComponent from "../src/components/head";
 import Mainlayout from "../src/pages/MainLayout";
 import { getCookies, checkCookies } from "cookies-next";
-import { getSession } from "next-auth/react";
-import PropTypes from "prop-types";
 import Error from "../src/components/Error/Error";
 import brand from "../public/text/brand";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,9 +31,9 @@ function Custom404(props) {
 
   return (
     <Fragment>
-      <HeadComponent title={t("title")} />
+      <HeadComponent title={ready && t("title")} />
       <Mainlayout {...props}>
-        <Error errorCode={errorCode} text={t("title")} t={t} {...props} />
+        <Error errorCode={errorCode} text={ ready &&t("title")} t={t} {...props} />
       </Mainlayout>
     </Fragment>
   );
@@ -51,7 +49,7 @@ export const getStaticProps = wrapper.getStaticProps((store) => async (ctx) => {
 
   return {
     props: {
-      session: await getSession(ctx),
+      session: null,
       ...(await serverSideTranslations(locale, ["common", "home", "404"])),
       locale: locale,
       // ...(await store.dispatch({
