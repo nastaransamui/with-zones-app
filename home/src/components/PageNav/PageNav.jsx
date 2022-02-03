@@ -7,6 +7,7 @@ import Scrollspy from 'react-scrollspy';
 import { Button, Fab, Tooltip } from '@mui/material';
 import navMenu from '../../../public/text/menu';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { useTranslation } from 'next-i18next';
 
 function createData(id, name, url) {
   return {
@@ -29,6 +30,7 @@ export default function PageNav(props) {
   const { router } = props;
   const classes = pageNavStyles();
   const [show, setShow] = useState(false);
+  const { t } = useTranslation('home');
   let flagShow = false;
   const handleScroll = () => {
     const doc = document.documentElement;
@@ -49,23 +51,25 @@ export default function PageNav(props) {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-  const [menuList, setMenuList] = useState([ ]);
+  const [menuList, setMenuList] = useState([]);
 
   // Add navMenu to menu List
-  useEffect(() =>{
+  useEffect(() => {
     let isMount = true;
-    if(isMount){
+    if (isMount && menuList.length == 0) {
       for (let index = 0; index < navMenu.length; index++) {
         const element = navMenu[index];
-        menuList.push(createData(index, element, '#'+ element.en.replace(/ /g, '_')))
-        setMenuList(menuList)
+        menuList.push(
+          createData(index, element, '#' + element.en.replace(/ /g, '_'))
+        );
+        setMenuList(menuList);
       }
     }
-    return ()=>{
+    return () => {
       isMount = false;
-    }
-  },[])
-  
+    };
+  }, []);
+
   return (
     <div className={clsx(classes.pageNav, show && classes.show)}>
       <nav className={classes.sectionNav}>
@@ -74,11 +78,11 @@ export default function PageNav(props) {
             return (
               <li
                 key={item.id.toString()}
-                style={{ top: 30 * (navMenu.length - item.id) }}
+                style={{top: 30 * (navMenu.length - item.id)}}
                 data-id={item.id}>
                 <Tooltip
                   title={item[`${router.locale}_name`]}
-                  placement='left'
+                  placement={router.locale == 'fa' ? 'right' : 'left'}
                   classes={{ tooltip: classes.tooltip }}>
                   <LinkBtn href={item.url}></LinkBtn>
                 </Tooltip>
@@ -88,8 +92,8 @@ export default function PageNav(props) {
         </Scrollspy>
       </nav>
       <Tooltip
-        title='To Top'
-        placeholder='left'
+        title={t('header.pageNav_top')}
+        placement={router.locale == 'fa' ? 'right' : 'left'}
         classes={{ tooltip: classes.tooltip }}>
         <Fab
           color='secondary'

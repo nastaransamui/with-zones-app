@@ -48,7 +48,7 @@ const pageNavStyles = makeStyles((theme) => {
           width: 12,
           height: 12,
           boxShadow: theme.shadows[1],
-          background: alpha(theme.palette.background.paper, 0.3),
+          background: 'black',
           border: `1px solid ${theme.palette.primary.dark}`,
           display: 'block',
           transition: 'all 0.4s ease',

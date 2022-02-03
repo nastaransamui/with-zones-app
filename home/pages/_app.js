@@ -27,6 +27,7 @@ import '../styles/animate-slider-extends.css';
 import '../styles/app.css';
 import Head from 'next/head';
 import { useSelector, useDispatch } from 'react-redux';
+import { checkCookies, setCookies } from 'cookies-next';
 
 function MyApp(props) {
   const {
@@ -48,6 +49,7 @@ function MyApp(props) {
     if (isMount) {
       // Set layout direction
       document.dir = i18n.language === 'fa' ? 'rtl' : 'ltr';
+      setCookies('lang', router.locale);
       // Remove preloader
       const preloader = document.getElementById('preloader');
       if (preloader !== null || undefined) {
@@ -90,7 +92,7 @@ function MyApp(props) {
     return () => {
       isMount = false;
     };
-  }, [themeType]);
+  }, [themeType, themeName]);
 
   const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 

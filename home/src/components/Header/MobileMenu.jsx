@@ -1,46 +1,52 @@
-import PropTypes from "prop-types";
-import clsx from "clsx";
-import useStyles from "./header-style";
-import routeLink from "../../../public/text/link";
-import navMenu from "../../../public/text/menu";
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
+import useStyles from './header-style';
+import routeLink from '../../../public/text/link';
+import navMenu from '../../../public/text/menu';
 import {
   Divider,
   List,
   ListItem,
   ListItemText,
   SwipeableDrawer,
-} from "@mui/material";
+} from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeCookies } from 'cookies-next';
 
 const MobileMenu = (props) => {
   const classes = useStyles();
   const { toggleDrawer, open, t, router } = props;
+  const { accessToken } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const SideList = () => {
     return (
       <div
         className={classes.mobileNav}
-        role="presentation"
+        role='presentation'
         onClick={toggleDrawer}
-        onKeyDown={toggleDrawer}
-      >
+        onKeyDown={toggleDrawer}>
         <div className={clsx(classes.menu, open && classes.menuOpen)}>
-          <List component="nav">
+          <List component='nav'>
             {navMenu.map((item, index) => {
               return (
                 <ListItem
                   button
-                  component="a"
+                  component='a'
                   onClick={() => {
-                    // Handle language from 404 page
-                    if (router.route == "/404") {
-                      router.push(`/#${item.en}`);
+                    if (router.route == '/404') {
+                      localStorage.setItem('scrollTo', index);
+                      router.replace(`/#${item.en}`, '/', {
+                        shallow: true,
+                        scroll: false,
+                        locale: router.locale,
+                      });
                     } else {
                       router.push(`#${item.en}`);
                     }
                   }}
                   key={index.toString()}
-                  style={{ animationDuration: index * 0.15 + "s" }}
-                >
+                  style={{ animationDuration: index * 0.15 + 's' }}>
                   <ListItemText
                     primary={item[`${router.locale}`]}
                     className={classes.menuList}
@@ -49,31 +55,50 @@ const MobileMenu = (props) => {
               );
             })}
             <Divider className={classes.dividerSidebar} />
-            {[
-              {
-                en: "login",
-                fa: "وارد شدن",
-              },
-              {
-                en: "register",
-                fa: "ثبت نام",
-              },
-            ].map((item, index) => {
-              return (
-                <ListItem
-                  button
-                  component="a"
-                  href={routeLink.panel[`${item.en}_${router.locale}`]}
-                  key={index.toString()}
-                  style={{ animationDuration: navMenu.length * 0.15 + "s" }}
-                >
-                  <ListItemText
-                    primary={item[`${router.locale}`]}
-                    className={classes.menuList}
-                  />
-                </ListItem>
-              );
-            })}
+            {accessToken == null ? (
+              [
+                {
+                  en: 'login',
+                  fa: 'وارد شدن',
+                },
+                {
+                  en: 'register',
+                  fa: 'ثبت نام',
+                },
+                {
+                  en: 'contact',
+                  fa: 'تماس',
+                },
+              ].map((item, index) => {
+                return (
+                  <ListItem
+                    button
+                    component='a'
+                    href={routeLink.panel[`${item.en}_${router.locale}`]}
+                    key={index.toString()}
+                    style={{ animationDuration: navMenu.length * 0.15 + 's' }}>
+                    <ListItemText
+                      primary={item[`${router.locale}`]}
+                      className={classes.menuList}
+                    />
+                  </ListItem>
+                );
+              })
+            ) : (
+              <ListItem
+                button
+                component='button'
+                onClick={() => {
+                  dispatch({ type: 'ACCESS_TOKEN', payload: null });
+                  removeCookies('accessToken');
+                }}
+                style={{ animationDuration: navMenu.length * 0.15 + 's' }}>
+                <ListItemText
+                  primary={t('header.header_logout')}
+                  className={classes.menuList}
+                />
+              </ListItem>
+            )}
           </List>
         </div>
       </div>
@@ -81,13 +106,12 @@ const MobileMenu = (props) => {
   };
   return (
     <SwipeableDrawer
-      anchor={router.locale == "fa" ? "right" : "left"}
+      anchor={router.locale == 'fa' ? 'right' : 'left'}
       open={open}
       onClose={toggleDrawer}
       onOpen={toggleDrawer}
       classes={{ paper: classes.paperNav }}
-      SlideProps={{ direction: router.locale == "fa" ? "left" : "right" }}
-    >
+      SlideProps={{ direction: router.locale == 'fa' ? 'left' : 'right' }}>
       <SideList />
     </SwipeableDrawer>
   );

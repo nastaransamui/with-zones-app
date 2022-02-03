@@ -1,31 +1,49 @@
-import Link from 'next/link'
-import Image from 'next/image'
+import HeadComponent from '../src/components/head';
+import Login from '../src/pages/login/Login';
+import { wrapper } from '../src/redux/store';
+import { withTranslation, useTranslation } from 'react-i18next';
+import { checkCookies, getCookies } from 'cookies-next';
+import { Fragment } from 'react';
 
-export default function Blog() {
+function Admin(props) {
+  const { t, ready, i18n } = useTranslation('common');
   return (
-    <div>
-      <h3>This is our blog</h3>
-      <ul>
-        <li>
-          <Link href="/post/1">
-            <a>Post 1</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/post/2">
-            <a>Post 2</a>
-          </Link>
-        </li>
-      </ul>
-      <a href="/">Home</a>
-      <div>
-        <Image
-          src="/admin/static/nextjs.png"
-          alt="Next.js logo"
-          width={200}
-          height={160}
-        />
-      </div>
-    </div>
-  )
+    <Fragment>
+      <HeadComponent title={ready && t('title')} />
+      <Login t={t} i18n={i18n} {...props} />
+    </Fragment>
+  );
 }
+
+export default withTranslation(['common'])(Admin);
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async (ctx) => {
+    if (checkCookies('adminAccessToken', ctx)) {
+      return {
+        props: {
+          adminAccessToken: getCookies(ctx).adminAccessToken,
+          ...(await store.dispatch({
+            type: 'ADMIN_ACCESS_TOKEN',
+            payload: getCookies(ctx).adminAccessToken,
+          })),
+        },
+        redirect: {
+          permanent: false,
+          source: '/',
+          destination: '/dashboard',
+        },
+      };
+    } else {
+      return {
+        props: {
+          adminAccessToken: null,
+          ...(await store.dispatch({
+            type: 'ADMIN_ACCESS_TOKEN',
+            payload: null,
+          })),
+        },
+      };
+    }
+  }
+);

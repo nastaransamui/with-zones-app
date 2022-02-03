@@ -9,7 +9,9 @@
     "header_theme": "حالت تم",
     "header_dark": "تیره",
     "header_light": "روشن",
-    "header_language": "زبان"
+    "header_language": "زبان",
+    "pageNav_top": "به بالا",
+    "header_logout": "خروج"
   },
   "promotion": {
     "promo_btn1": "خریداری کنید",
@@ -43,5 +45,14 @@
     "title": "به روز رسانی چیست؟",
     "desc": "اخبار لحظه به لحظه، اخبار فوری، ویدیویی، صوتی و داستان های ویژه",
     "more": "بیشتر"
+  },
+  "footer": {
+    "footer_waiting": "منتظر چی هستی؟",
+    "getstarted": "شروع کنید"
+  },
+  "themeUser": {
+    "theme": "زمینه",
+    "profile": "مشخصات",
+    "combination": "ترکیب رنگ ها"
   }
 }

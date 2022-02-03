@@ -24,7 +24,7 @@ export default function MovieDialog(props) {
     player.push(event.target);
     setPlayer(player);
   };
-  console.log(movieItem);
+
   const opts = {
     height: '360',
     width: '640',

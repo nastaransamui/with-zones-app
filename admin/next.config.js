@@ -1,13 +1,17 @@
 module.exports = {
   basePath: '/admin',
-  async redirects(){
+  react: {
+    useSuspense: false,
+    wait: true,
+  },
+  async redirects() {
     return [
       {
-        source: "/",
-        destination: "/admin",
+        source: '/',
+        destination: '/admin',
         permanent: true,
-        basePath: false
-      }
-    ]
-  }
-}
+        basePath: false,
+      },
+    ];
+  },
+};

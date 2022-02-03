@@ -6,24 +6,26 @@ import {
   Hidden,
   IconButton,
   useMediaQuery,
-} from "@mui/material";
-import { forwardRef, Fragment, useEffect, useState } from "react";
-import useStyles from "./header-style";
-import clsx from "clsx";
-import { useTheme } from "@mui/styles";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import Scrollspy from "react-scrollspy";
-import AnchorLink from "react-anchor-link-smooth-scroll";
-import routeLink from "../../../public/text/link";
-import navMenu from "../../../public/text/menu";
-import { useTranslation } from "next-i18next";
-import MobileMenu from "./MobileMenu";
-import Router from "next/router";
-import Settings from "./Settings";
+} from '@mui/material';
+import { forwardRef, Fragment, useEffect, useState } from 'react';
+import useStyles from './header-style';
+import clsx from 'clsx';
+import { useTheme } from '@mui/styles';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Scrollspy from 'react-scrollspy';
+import AnchorLink from 'react-anchor-link-smooth-scroll';
+import routeLink from '../../../public/text/link';
+import navMenu from '../../../public/text/menu';
+import { useTranslation } from 'next-i18next';
+import MobileMenu from './MobileMenu';
+import Settings from './Settings';
+import { checkCookies, getCookie, setCookies, removeCookies } from 'cookies-next';
+import jwt from 'jsonwebtoken';
+import { useSelector, useDispatch } from 'react-redux';
 
 let counter = 0;
-function createData(name, url, offset) {
+export function createData(name, url, offset) {
   counter += 1;
   return {
     id: counter,
@@ -34,14 +36,10 @@ function createData(name, url, offset) {
   };
 }
 
-const LinkBtn = forwardRef((props, ref) => {
+export const LinkBtn = forwardRef((props, ref) => {
   const { href, children } = props;
   return (
-    <AnchorLink
-      href={href}
-      {...props}
-      style={{ cursor: "pointer" }}
-    >
+    <AnchorLink href={href} {...props} style={{ cursor: 'pointer' }}>
       {children}
     </AnchorLink>
   );
@@ -49,15 +47,25 @@ const LinkBtn = forwardRef((props, ref) => {
 
 export default function Header(props) {
   const { invert } = props;
+  const router = useRouter();
   const classes = useStyles();
   const theme = useTheme();
-  const router = useRouter();
-  const { t } = useTranslation("home");
+  const { t } = useTranslation('home');
   const [fixed, setFixed] = useState(false);
   let flagFixed = false;
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const dispatch = useDispatch();
+  // const profile = jwt.verify(
+  //   getCookie('accessToken'),
+  //   process.env.SECRET_KEY,
+  //   (err, user) => {
+  //     if (!err) {
+  //       return user;
+  //     }
+  //   }
+  // );
+  // console.log(profile)
   const handleScroll = () => {
     const doc = document.documentElement;
     const scroll = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
@@ -70,49 +78,31 @@ export default function Header(props) {
   useEffect(() => {
     let isMount = true;
     if (isMount) {
-      window.addEventListener("scroll", handleScroll);
+      window.addEventListener('scroll', handleScroll);
     }
     return () => {
       isMount = false;
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [menuList, setMenuList] = useState([]);
 
   // Add navMenu to menu List
-  useEffect(() =>{
-    let isMount = true;
-    if(isMount && menuList.length == 0){
-      for (let index = 0; index < navMenu.length; index++) {
-        const element = navMenu[index];
-        menuList.push(createData(element, '#'+ element.en, 100))
-        setMenuList(menuList)
-      }
-    }
-    return ()=>{
-      isMount = false;
-    }
-  },[])
-
-
-  // Handle scroll to element from non "/" link
   useEffect(() => {
     let isMount = true;
-    if (isMount) {
-      if (router.asPath.includes("#")) {
-        let id = Router.asPath.match(/#([a-z0-9]+)/gi)[0].slice(1);
-        let elem = document.getElementById(id);
-        if (elem) {
-          elem.scrollIntoView({ behavior: "smooth" });
-          router.push("/", undefined, { shallow: true, scroll: false });
-        }
+    if (isMount && menuList.length == 0) {
+      setMenuList([]);
+      for (let index = 0; index < navMenu.length; index++) {
+        const element = navMenu[index];
+        menuList.push(createData(element, '#' + element.en, 50));
+        setMenuList(menuList);
       }
     }
     return () => {
       isMount = false;
     };
-  }, [router]);
+  }, []);
 
   const handleOpenDrawer = () => {
     setOpenDrawer(!openDrawer);
@@ -130,16 +120,15 @@ export default function Header(props) {
         />
       )}
       <AppBar
-        component="header"
-        position="relative"
-        id="header"
+        component='header'
+        position='relative'
+        id='header'
         className={clsx(
           classes.header,
           fixed && classes.fixed,
           invert && classes.invert,
           openDrawer && classes.openDrawer
-        )}
-      >
+        )}>
         <Container fixed={isDesktop} className={classes.headerContainer}>
           <div className={classes.headerContent}>
             <nav
@@ -148,85 +137,69 @@ export default function Header(props) {
                 classes.navLogo,
                 invert && classes.invert,
                 openDrawer && classes.openDrawer
-              )}
-            >
+              )}>
               {isMobile && (
                 <IconButton
                   onClick={() => handleOpenDrawer()}
                   className={clsx(
-                    "hamburger hamburger--spin",
+                    'hamburger hamburger--spin',
                     classes.mobileMenu,
-                    openDrawer && "is-active"
-                  )}
-                >
-                  <span className="hamburger-box">
-                    <span className={clsx(classes.bar, "hamburger-inner")} />
+                    openDrawer && 'is-active'
+                  )}>
+                  <span className='hamburger-box'>
+                    <span className={clsx(classes.bar, 'hamburger-inner')} />
                   </span>
                 </IconButton>
               )}
               <div className={classes.logo}>
-                {invert ? (
-                  <Link href="/">
-                    <img
-                      src="/static/logo.svg"
-                      alt="logo"
-                      style={{ cursor: "pointer" }}
-                    />
-                  </Link>
-                ) : (
-                  <Link href="/">
-                    <img
-                      src="/static/logo.svg"
-                      alt="logo"
-                      style={{ cursor: "pointer" }}
-                    />
-                  </Link>
-                )}
+                <Link href='/'>
+                  <img
+                    src='/static/logo.svg'
+                    alt='logo'
+                    style={{ cursor: 'pointer' }}
+                  />
+                </Link>
               </div>
               {isDesktop && (
                 <>
-                  {router.asPath == "/" ? (
-                    <Scrollspy items={navMenu.map((t) => t.en)} currentClassName="active">
+                  {router.asPath == '/' || router.asPath.includes('#') ? (
+                    <Scrollspy
+                      items={navMenu.map((t) => t.en)}
+                      currentClassName='active'>
                       {menuList.map((item) => {
                         return (
                           <li key={item.id.toString()}>
-                            {invert ? (
-                              <Button
-                                offset={item.offset || 0}
-                                href={`/${item.url}`}
-                              >
-                                {item[`${router.locale}_name`]}
-                              </Button>
-                            ) : (
-                              <Button
-                                component={LinkBtn}
-                                offset={item.offset || 0}
-                                href={item.url}
-                                router={router}
-                              >
-                                {item[`${router.locale}_name`]}
-                              </Button>
-                            )}
+                            <Button
+                              component={LinkBtn}
+                              offset={item.offset}
+                              href={item.url}
+                              router={router}>
+                              {item[`${router.locale}_name`]}
+                            </Button>
                           </li>
                         );
                       })}
                     </Scrollspy>
                   ) : (
                     <>
-                      {menuList.map((item) => {
+                      {menuList.map((item, index) => {
                         return (
                           <Button
                             key={item.id.toString()}
                             style={{
                               color:
-                                theme.palette.mode === "light"
+                                theme.palette.mode === 'light'
                                   ? theme.palette.common.black
                                   : theme.palette.common.white,
                             }}
                             onClick={() => {
-                              router.push(`/${item.url}`);
-                            }}
-                          >
+                              localStorage.setItem('scrollTo', index);
+                              router.replace(`/${item.url}`, '/', {
+                                shallow: true,
+                                scroll: false,
+                                locale: router.locale,
+                              });
+                            }}>
                             {item[`${router.locale}_name`]}
                           </Button>
                         );
@@ -241,20 +214,36 @@ export default function Header(props) {
             </Hidden>
             <nav className={clsx(classes.navMenu, classes.navAuth)}>
               <Hidden xsDown>
-                <Button href={routeLink.panel[`contact_${router.locale}`]} 
-                  variant="contained"
-                  color="secondary"
-                  className={classes.button}>
-                  {t("header.header_contact")}
-                </Button>
-                <Button href={routeLink.panel[`login_${router.locale}`]} >
-                  {t("header.header_login")}
-                </Button>
                 <Button
-                  href={routeLink.panel[`register_${router.locale}`]}
-                >
-                  {t("header.header_register")}
+                  href={routeLink.panel[`contact_${router.locale}`]}
+                  variant='contained'
+                  className={classes.button}>
+                  {t('header.header_contact')}
                 </Button>
+                {checkCookies('accessToken') ? (
+                  <Button
+                    onClick={() => {
+                      dispatch({ type: 'ACCESS_TOKEN', payload: null });
+                      removeCookies('accessToken');
+                    }}
+                    style={{
+                      color:
+                        theme.palette.mode === 'light'
+                          ? theme.palette.common.black
+                          : theme.palette.common.white,
+                    }}>
+                    {t('header.header_logout')}
+                  </Button>
+                ) : (
+                  <>
+                    <Button href={routeLink.panel[`login_${router.locale}`]}>
+                      {t('header.header_login')}
+                    </Button>
+                    <Button href={routeLink.panel[`register_${router.locale}`]}>
+                      {t('header.header_register')}
+                    </Button>
+                  </>
+                )}
               </Hidden>
               <Settings invert={invert} t={t} router={router} />
             </nav>

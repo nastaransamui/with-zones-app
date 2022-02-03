@@ -7,6 +7,8 @@ const initialState = {
   loadingBar: 0,
   showMovie: true,
   youTubeBanner: false,
+  accessToken: null,
+  formSubmit: false,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -23,6 +25,10 @@ const reducer = (state = initialState, { type, payload }) => {
       return { ...state, showMovie: payload };
     case 'LOADINGBAR':
       return { ...state, loadingBar: payload };
+    case 'ACCESS_TOKEN':
+      return { ...state, accessToken: payload };
+    case 'FORM_SUBMIT':
+      return { ...state, formSubmit: payload };
     default:
       return state;
   }
@@ -31,5 +37,5 @@ const reducer = (state = initialState, { type, payload }) => {
 const makeStore = (context) => createStore(reducer);
 
 export const wrapper = createWrapper(makeStore, {
-  debug: process.env.NODE_ENV == 'development' ? true : false,
+  debug: process.env.NODE_ENV == 'development' ? false : false,
 });

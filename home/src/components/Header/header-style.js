@@ -93,6 +93,7 @@ const useStyles = makeStyles((theme) => {
       maxWidth: '100%',
       paddingLeft: 2,
       paddingRight: 2,
+      overflow: 'hidden',
     },
     headerContent: {
       display: 'flex',
@@ -201,7 +202,7 @@ const useStyles = makeStyles((theme) => {
       },
       '& $button': {
         background: theme.palette.secondary.light,
-        color: theme.palette.primary.main + '!important',
+        color: theme.palette.secondary.dark + '!important',
         fontWeight: theme.typography.fontWeightBold,
       },
     },
