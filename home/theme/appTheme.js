@@ -95,47 +95,16 @@ const appTheme = (color, mode, dir) => {
           ],
     //override
     components: {
-      // MuiOutlinedInput: {
-      //   styleOverrides: {
-      //     root: {
-      //       "& .MuiOutlinedInput-notchedOutline": {
-      //         textAlign: dir == "rtl" ? "right" : "left",
-      //       },
-      //     },
-      //   },
-      // },
-      // MuiInputLabel: {
-      //   styleOverrides: {
-      //     root: {
-      //       right: dir == "rtl" ? 25 : 0,
-      //       "&.Mui-focused": {
-      //         right: dir == "rtl" ? -145 : 0,
-      //       },
-      //     },
-      //     filled: {
-      //       right: dir == "rtl" ? -145 : 0,
-      //     },
-      //     shrink: {
-      //       right: dir == "rtl" ? -145 : 0,
-      //     },
-      //   },
-      // },
-      // MuiFormLabel: {
-      //   styleOverrides: {
-      //     filled: {
-      //       "&.Mui-focused": {
-      //         right: dir == "rtl" ? -145 : 0,
-      //       },
-      //       "&.Mui-error": {
-      //         right: dir == "rtl" ? -145 : 0,
-      //       },
-      //     },
-      //     root: {
-      //       right: dir == "rtl" ? -145 : 0,
-      //       "& .Mui-filled": {},
-      //     },
-      //   },
-      // },
+      MuiInputLabel: {
+        styleOverrides: {
+          root: {
+            transformOrigin: dir == 'rtl' ? 'top right' : 'top left',
+            '&.Mui-focused': {
+              transformOrigin: dir == 'rtl' ? 'top right' : 'top left',
+            },
+          },
+        },
+      },
       MuiFilledInput: {
         styleOverrides: {
           root: {

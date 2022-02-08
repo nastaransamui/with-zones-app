@@ -54,6 +54,7 @@
   "themeUser": {
     "theme": "Theme",
     "profile": "Profile",
-    "combination": "Color Combination"
+    "combination": "Color Combination",
+    "adminPanel": "Go to Admin Panel"
   }
 }

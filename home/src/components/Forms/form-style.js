@@ -256,14 +256,16 @@ const contactStyles = makeStyles((theme) => {
     light: {},
     input: {
       width: '100%',
-      // "& label": {
-      //   left: theme.direction == "ltr" ? theme.spacing(0.5) : theme.spacing(3),
-      // },
-      // "& label.Mui-focused":{
-      //   // right: theme.direction == "ltr" ? theme.spacing(0.5) : theme.spacing(60),
-      //   // minWidth: 100,
-      //   left: -140,
-      // },
+      '& label': {
+        left: theme.direction == 'ltr' ? theme.spacing(0.5) : theme.spacing(3),
+      },
+      '& label.Mui-focused': {
+        right: theme.direction == 'ltr' ? theme.spacing(0.5) : theme.spacing(3),
+        left: theme.direction == 'ltr' ? theme.spacing(0.5) : theme.spacing(3),
+      },
+      '& .MuiInputLabel-shrink': {
+        left: theme.direction == 'ltr' ? theme.spacing(0.5) : theme.spacing(3),
+      },
       '& > div': {
         border: `1px solid ${alpha(theme.palette.text.primary, 0.25)}`,
         background: 'none',

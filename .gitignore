@@ -18,6 +18,12 @@ out/
 # misc
 .DS_Store
 *.pem
+*.crt
+*.key
+
+home/localhost.key
+home/localhost.crt
+
 
 # debug
 npm-debug.log*

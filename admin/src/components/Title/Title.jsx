@@ -1,12 +1,13 @@
-import titleStyles from './title-style';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
+import useStyles from './title-style';
 
-export default function Title(props) {
-  const classes = titleStyles();
-  const { primary, secondary, align } = props;
-  const setAlign = (alignment) => {
+export default function TitleSecondary(props) {
+  const classes = useStyles();
+  const { children, align } = props;
+  const setAlign = alignment => {
     switch (alignment) {
       case 'left':
         return classes.left;
@@ -19,23 +20,19 @@ export default function Title(props) {
     }
   };
   return (
-    <div className={clsx(classes.title, setAlign(align))}>
-      <Typography variant="h4" className={classes.primary}>
-        {primary}
-      </Typography>
-      <Typography variant='h4' className={classes.secondary}>
-        {secondary}
+    <div className={clsx(classes.titleSecondary, setAlign(align))}>
+      <Typography variant="h3">
+        {children}
       </Typography>
     </div>
   );
 }
 
-Title.propTypes = {
-  primary: PropTypes.string.isRequired,
-  secondary: PropTypes.string.isRequired,
+TitleSecondary.propTypes = {
+  children: PropTypes.node.isRequired,
   align: PropTypes.string,
 };
 
-Title.defaultProps = {
-  align: 'left',
+TitleSecondary.defaultProps = {
+  align: 'left'
 };

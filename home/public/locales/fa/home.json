@@ -53,6 +53,7 @@
   "themeUser": {
     "theme": "زمینه",
     "profile": "مشخصات",
-    "combination": "ترکیب رنگ ها"
+    "combination": "ترکیب رنگ ها",
+    "adminPanel": "به پنل مدیریت بروید"
   }
 }

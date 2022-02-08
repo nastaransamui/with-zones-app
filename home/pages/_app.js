@@ -28,6 +28,18 @@ import '../styles/app.css';
 import Head from 'next/head';
 import { useSelector, useDispatch } from 'react-redux';
 import { checkCookies, setCookies } from 'cookies-next';
+import Router from 'next/router';
+import ReactDOM from 'react-dom';
+import Loading from '../src/components/Loading/Loading';
+Router.events.on('routeChangeStart', (url) => {
+  document.body.classList.add('body-page-transition');
+  ReactDOM.render(<Loading />, document.getElementById('page-transition'));
+});
+
+Router.events.on('routeChangeComplete', () => {
+  ReactDOM.unmountComponentAtNode(document.getElementById('page-transition'));
+  document.body.classList.remove('body-page-transition');
+});
 
 function MyApp(props) {
   const {

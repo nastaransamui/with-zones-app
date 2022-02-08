@@ -29,7 +29,7 @@ export const isRegex = (value) => {
 export default function LoginForm(props) {
   const classes = formStyles();
   const text = useText();
-  const { router } = props;
+  const { router, setloginError } = props;
   const dispatch = useDispatch();
   const { t } = useTranslation('auth');
   const [values, setValues] = useState({
@@ -61,6 +61,7 @@ export default function LoginForm(props) {
       password: values.password,
       strategy: 'local',
     };
+    dispatch({ type: 'FORM_SUBMIT', payload: true });
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -73,12 +74,13 @@ export default function LoginForm(props) {
       const { accessToken } = user;
       dispatch({ type: 'accessToken', payload: accessToken });
       setCookies('accessToken', accessToken);
+      dispatch({ type: 'FORM_SUBMIT', payload: false });
       router.push(`/`, '/', {
         scroll: false,
         locale: router.locale,
       });
     } else {
-      console.log(res);
+      setloginError(user.user.message);
     }
   };
 

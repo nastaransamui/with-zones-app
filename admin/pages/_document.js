@@ -37,6 +37,7 @@ class MyDocument extends Document {
               alt='loading'
             />
           </div>
+          <div id='page-transition'></div>
           <Main />
           <NextScript />
         </body>

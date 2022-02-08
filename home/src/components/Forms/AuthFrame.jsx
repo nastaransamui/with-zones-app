@@ -52,7 +52,11 @@ export default function AuthFrame(props) {
               href={`/${router.locale}/`}
               className={classes.backtohome}>
               <i className='ion-ios-home-outline' />
+              {router.locale !== 'fa' ? (
               <i className='ion-ios-arrow-thin-left' />
+            ) : (
+              <i className='ion-ios-arrow-thin-right' />
+            )}
             </IconButton>
             <div className={classes.authFrame}>
               <Grid container spacing={0}>

@@ -28,7 +28,7 @@ import { setCookies } from 'cookies-next';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookIcon from '@mui/icons-material/Facebook';
-
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import jwt from 'jsonwebtoken';
 import { useTranslation } from 'next-i18next';
 
@@ -47,11 +47,11 @@ function ProviderIcon(props) {
   return (
     <>
       {provider == 'twitter' ? (
-        <TwitterIcon {...others} style={{ fill: '#28aae1'}}/>
+        <TwitterIcon {...others} style={{ fill: '#28aae1' }} />
       ) : provider == 'facebook' ? (
-        <FacebookIcon {...others} style={{ fill: '#3b579d'}}/>
+        <FacebookIcon {...others} style={{ fill: '#3b579d' }} />
       ) : provider == 'google' ? (
-        <GoogleIcon {...others} style={{ fill: '#dd493c'}}/>
+        <GoogleIcon {...others} style={{ fill: '#dd493c' }} />
       ) : (
         <LibraryBooksIcon {...others} />
       )}
@@ -73,8 +73,8 @@ export default function ThemeUser(props) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [tab, setTab] = useState(0);
   const { themeName, accessToken } = useSelector((state) => state);
-  const {router} = props
-  const {t} = useTranslation("home")
+  const { router } = props;
+  const { t } = useTranslation('home');
 
   const handleToggleOpen = () => {
     setOpenDrawer(!openDrawer);
@@ -103,7 +103,7 @@ export default function ThemeUser(props) {
     dispatch({ type: 'THEMENAME', payload: clr });
     setCookies('themeName', clr);
   };
- 
+
   const profile = jwt.verify(
     accessToken,
     process.env.SECRET_KEY,
@@ -124,7 +124,7 @@ export default function ThemeUser(props) {
         onClose={handleClose}
         onOpen={handleToggleOpen}
         SlideProps={{
-          direction: router.locale !== 'fa' ? 'left' : 'right'
+          direction: router.locale !== 'fa' ? 'left' : 'right',
         }}
         classes={{
           paper: classes.draweBg,
@@ -147,13 +147,15 @@ export default function ThemeUser(props) {
               indicatorColor='secondary'
               centered>
               <Tab
-                label={t("themeUser.theme")}
+                label={t('themeUser.theme')}
                 icon={isDesktop ? <PaletteIcon /> : ''}
                 classes={{ root: classes.wrapper }}
               />
               <Tab
-                icon={isDesktop ? <ProviderIcon provider={profile?.provider} /> : ''}
-                label={t("themeUser.profile")}
+                icon={
+                  isDesktop ? <ProviderIcon provider={profile?.provider} /> : ''
+                }
+                label={t('themeUser.profile')}
                 classes={{ root: classes.wrapper }}
                 disabled={accessToken == null}
               />
@@ -162,7 +164,9 @@ export default function ThemeUser(props) {
           <TabPanel value={tab} index={0}>
             <div className={classes.themeColor}>
               <Paper className={classes.paper}>
-                <Typography variant='h6'>{t("themeUser.combination")}</Typography>
+                <Typography variant='h6'>
+                  {t('themeUser.combination')}
+                </Typography>
                 <Grid container className={classes.swatchWrapper}>
                   {Object.keys(themeList).map((clr, index) => {
                     return (
@@ -206,13 +210,26 @@ export default function ThemeUser(props) {
         </div>
       </SwipeableDrawer>
       <div className={clsx(classes.btn, openDrawer && classes.active)}>
+        <Tooltip arrow  title={t("themeUser.theme")} placement='top'>
         <IconButton onClick={handleToggleOpenTheme}>
           <PaletteIcon />
         </IconButton>
+        </Tooltip>
         {accessToken !== null && (
+          <Tooltip   title={t("themeUser.profile")} placement='left'>
           <IconButton onClick={handleToggleOpenProfile}>
             <ProviderIcon provider={profile.provider} />
           </IconButton>
+          </Tooltip>
+        )}
+        {accessToken !== null && profile.isAdmin && (
+          <Tooltip arrow  title={t("themeUser.adminPanel")} placement='bottom'>
+          <IconButton >
+            <a href={process.env.NEXT_PUBLIC_ADMIN_URL} target="_blank">
+            <DashboardIcon />
+            </a>
+          </IconButton>
+          </Tooltip>
         )}
       </div>
     </Fragment>
