@@ -1,7 +1,18 @@
 import PropTypes from 'prop-types';
+import Error from '../components/Error/Error';
 
-const ErrorPage = ({ t, router, i18n }) => {
-  return <div>{t('title')}</div>;
+const ErrorPage = (props) => {
+  const { t, router, i18n,errorCode } = props;
+  return (
+    <Error
+      {...props}
+      t={t}
+      i18n={i18n}
+      errorCode={errorCode}
+      text={ t('title')}
+      type="next"
+    />
+  );
 };
 
 ErrorPage.propTypes = {

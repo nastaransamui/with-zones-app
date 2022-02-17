@@ -47,5 +47,9 @@
   "Wrong Email": "Email is wrong",
   "Wrong password": "Password is wrong",
   "serverError": "Somethings go wrong please contact admin.",
-  "notAdmin": "You do not have access to admin panel."
+  "notAdmin": "You do not have access to admin panel.",
+  "theme": "Themes",
+  "homeTheme": "Home page theme",
+  "combination": "Color Combination",
+  "adminTheme": "Admin page theme"
 }

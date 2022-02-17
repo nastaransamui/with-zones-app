@@ -6,6 +6,8 @@ import common_en from '../public/locales/en/common.json';
 import common_fa from '../public/locales/fa/common.json';
 import dashboard_en from '../public/locales/en/dashboard.json';
 import dashboard_fa from '../public/locales/fa/dashboard.json';
+import error_en from '../public/locales/en/404.json';
+import error_fa from '../public/locales/fa/404.json';
 import i18next from 'i18next';
 import { withTranslation, useTranslation } from 'react-i18next';
 import detector from 'i18next-browser-languagedetector';
@@ -23,6 +25,8 @@ import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/bouncyflip.css';
 import 'animate.css';
 import '../styles/globals.css';
+import '../styles/hamburger-menu.css';
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import { useSelector, useDispatch } from 'react-redux';
 import Head from 'next/head';
 import Router from 'next/router';
@@ -34,6 +38,7 @@ i18next
   .use(initReactI18next)
   .init({
     interpolation: { scapeValue: false },
+    returnObjects: true,
     lng:
       typeof window !== 'undefined'
         ? navigator.cookieEnabled
@@ -47,10 +52,12 @@ i18next
       en: {
         common: common_en,
         dashboard: dashboard_en,
+        404: error_en,
       },
       fa: {
         common: common_fa,
         dashboard: dashboard_fa,
+        404: error_fa,
       },
     },
   });
@@ -171,8 +178,8 @@ function MyApp(props) {
       <Head>
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
-      <I18nextProvider i18n={i18next}>
-        <StylesProvider jss={jss}>
+      <PageTransition timeout={300} classNames='page-fade-transition'>
+        <I18nextProvider i18n={i18next}>
           <ThemeProvider theme={adminTheme}>
             <CssBaseline />
             <LoadingBar
@@ -183,7 +190,7 @@ function MyApp(props) {
             />
             <div suppressHydrationWarning>
               {typeof window === 'undefined' ? null : (
-                <PageTransition timeout={300} classNames='page-fade-transition'>
+                <StylesProvider jss={jss}>
                   <Component
                     router={router}
                     {...pageProps}
@@ -191,12 +198,12 @@ function MyApp(props) {
                     t={t}
                     i18n={i18n}
                   />
-                </PageTransition>
+                </StylesProvider>
               )}
             </div>
           </ThemeProvider>
-        </StylesProvider>
-      </I18nextProvider>
+        </I18nextProvider>
+      </PageTransition>
     </Fragment>
   );
 }

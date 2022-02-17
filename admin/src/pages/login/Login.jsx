@@ -162,7 +162,6 @@ export default function Login(props) {
             <Typography>{t('login_or')}</Typography>
           </div>
           <ValidatorForm
-            onError={(errors) => console.log(errors)}
             onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>

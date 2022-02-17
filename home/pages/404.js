@@ -21,7 +21,7 @@ function Custom404(props) {
         dispatch({ type: 'THEMETYPE', payload: getCookies().themeType });
       }
       if (getCookies().themeName !== undefined) {
-        dispatch({ type: 'THEMENAME', payload: getCookies().themeType });
+        dispatch({ type: 'THEMENAME', payload: getCookies().themeName });
       }
       if (getCookies().accessToken) {
         dispatch({ type: 'ACCESS_TOKEN', payload: getCookies().accessToken });

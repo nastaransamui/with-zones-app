@@ -7,6 +7,7 @@ const initialState = {
   adminThemeType: 'light',
   adminLoadingBar: 0,
   adminFormSubmit: false,
+  sampleDashboardShow: false,
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -23,6 +24,8 @@ const reducer = (state = initialState, { type, payload }) => {
       return { ...state, adminLoadingBar: payload };
     case 'ADMIN_FORM_SUBMIT':
       return { ...state, adminFormSubmit: payload };
+    case 'SAMPLE_DASHBOARD_SHOW':
+      return { ...state, sampleDashboardShow: payload };
     default:
       return state;
   }

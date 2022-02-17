@@ -1,13 +1,23 @@
 import { checkCookies, getCookies } from 'cookies-next';
 import { wrapper } from '../../src/redux/store';
 import { withTranslation, useTranslation } from 'react-i18next';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import HeadComponent from '../../src/components/head';
 import Dashboard from '../../src/pages/dashboard/Dashboard';
 
 function index(props) {
   const { t, ready, i18n } = useTranslation('dashboard');
-
+  const { router } = props;
+  // Rplace next router with current react router
+  useEffect(() => {
+    let isMount = true;
+    if (isMount) {
+      router.asPath = location.pathname;
+    }
+    return () => {
+      isMount = false;
+    };
+  }, [router]);
   return (
     <Fragment>
       <HeadComponent title={ready && t('title')} />

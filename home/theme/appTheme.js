@@ -7,8 +7,8 @@ const appTheme = (color, mode, dir) => {
       type: mode,
       mode: mode,
       background: {
-        paper: mode === 'dark' ? '#424242' : '#fff',
-        default: mode === 'dark' ? '#424242' : '#fff',
+        paper: mode === 'dark' ? '#424242' : '#f5f5f5',
+        default: mode === 'dark' ? '#424242' : '#f5f5f5',
       },
       primary: palette[color].palette.primary,
       secondary: palette[color].palette.secondary,

@@ -179,7 +179,7 @@ const authStyles = makeStyles((theme) => {
     authFrame: {
       display: 'block',
       position: 'relative',
-      marginTop: theme.spacing(-10),
+      // marginTop: theme.spacing(-10),
     },
     check: {
       '& svg': {

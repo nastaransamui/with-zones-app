@@ -1,0 +1,13 @@
+.bread{
+  flex: 4;
+  padding: 10px;
+  height: 36px;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media only screen and (max-width: 730px) {
+  .bread {
+    display: contents;
+  }
+}
